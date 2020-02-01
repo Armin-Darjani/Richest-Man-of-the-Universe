@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     bool numOflines = false;
     userInput *user_input;
-
+// for reading from a file
     ifstream myReadFile;
     int num_of_lines;
     int counter = 0;
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
              }
          }
     }
-
+//------
     fission *fissionOperation;
     fusion  *fusinOperation;
     float outFission;
