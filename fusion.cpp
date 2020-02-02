@@ -12,36 +12,41 @@ fusion::fusion(float R1, float R2, float d){
     this->pi = 3.14;
 }
 
-float fusion::InsideSectorTriangleArea(float radius, float triangleHeight){
-    float triangleBase;
-    triangleBase = sqrt(radius*radius - triangleHeight*triangleHeight);
-
-    return triangleBase*triangleHeight;// triangleBase*2*1/2*height
+//----calculates the rectangle area wich is inside the intended sector
+void fusion::InsideSectorTriangleArea(){
+    float halfBase;
+    insideTrianglesHeight[0] = (distance*distance - radius2*radius2+radius1*radius1)/(2*distance); //formula 1 in fusion documentation for first virus
+    insideTrianglesHeight[1] = (distance*distance - radius1*radius1+radius2*radius2)/(2*distance); //formula 1 in fusion documentation for second virus
+    halfBase = sqrt((radius1*radius1)-(insideTrianglesHeight[0]*insideTrianglesHeight[0])); // calculates y in documentation
+    insideTrianglesareas[0] = halfBase * insideTrianglesHeight[0];
+    insideTrianglesareas[1] = halfBase * insideTrianglesHeight[1];
 
 }
 
-float fusion::SectorMinuTriangle(){
-    float triangleHeight, insideTriangleArea, sectorArea, teta, segment_area;
-    triangleHeight = radius2 -(radius2 -(distance-radius1))/2;
-    insideTriangleArea = InsideSectorTriangleArea(radius2 , triangleHeight);
-    teta = acos(triangleHeight/radius2)*180/pi;
-    sectorArea = (2*teta*pi/360) * radius2 * radius2;
-    segment_area = sectorArea - insideTriangleArea;
-    return segment_area;
+//----claculates the segments area(A1 and A2) using formulas 2, 3 and 4 of fusion
+void fusion::SectorMinuTriangle(){
+    float Teta1,Teta2;
+    InsideSectorTriangleArea();
+    Teta1 = acos(insideTrianglesHeight[0]/radius1)*180/pi;
+    Teta2 = acos(insideTrianglesHeight[1]/radius2)*180/pi;
+    cout << Teta1 << "    " << Teta2 << endl;
+    segmentAreas[0] = ((Teta1*2*pi*radius1*radius1)/360) - insideTrianglesareas[0];
+    segmentAreas[1] = ((Teta2*2*pi*radius2*radius2)/360) - insideTrianglesareas[1];
 
 }
 
 float fusion::CompactionRatio(){
     float compact_ratio;
-    if(distance >= (radius1 + radius2)){
+   if(distance >= (radius1 + radius2)){
         compact_ratio = 1.0000;
     }
     else{
-      float segment_area, area1 , area2;
-      segment_area = SectorMinuTriangle();
+      SectorMinuTriangle();
+      float area1 , area2;
       area1 = radius1*radius1*pi;
       area2 = radius2*radius2*pi;
-      compact_ratio = (area1 + area2 - 2*segment_area)/(area1+area2);
+      compact_ratio = (area1 + area2 - segmentAreas[0]-segmentAreas[1])/(area1+area2);
       }
+
     return compact_ratio;
 }
