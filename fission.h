@@ -7,6 +7,7 @@ private:
     float recLength;
     float recWidth;
     float vRadius;
+
 public:
     fission();
     fission(float l ,float w ,float r);
