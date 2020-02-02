@@ -17,9 +17,9 @@ struct userInput{
 int main(int argc, char *argv[])
 {
 
+    //-----these lines get the input text file
     bool numOflines = false;
     userInput *user_input;
-// for reading from a file
     ifstream myReadFile;
     int num_of_lines;
     int counter = 0;
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     int output;
     if (myReadFile.is_open()) {
          while (!myReadFile.eof()) {
-             if(numOflines == false){
+             if(numOflines == false){ // first line determinse the number of operations
                 numOflines = true;
                 myReadFile >> num_of_lines;
                 cout << num_of_lines<<endl;
@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
              }
          }
     }
-//------
+    //-----------------------------------------------
+
     fission *fissionOperation;
     fusion  *fusinOperation;
     float outFission;
