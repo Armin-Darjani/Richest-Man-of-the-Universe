@@ -8,9 +8,13 @@ private:
     float radius2;
     float distance;
     float pi;
-    float InsideSectorTriangleArea(float radius, float triangleHeight);
-    float SectorMinuTriangle();
+    float insideTrianglesHeight[2];
+    float insideTrianglesareas[2];
+    float segmentAreas[2];
 public:
+
+    void InsideSectorTriangleArea();
+    void SectorMinuTriangle();
     fusion();
     fusion(float R1, float R2, float d);
 
