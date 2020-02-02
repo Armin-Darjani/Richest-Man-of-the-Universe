@@ -13,14 +13,15 @@ fission::fission(float l, float w, float r){
 }
 float fission::MaxDistance(){
 
-    float exponentialRadiusOfEachChild , maxDistance, recDiameter, spaceChecker, radiusOfEachChild;
+    float exponentialRadiusOfEachChild , maxDistance, radiusOfEachChild;
     exponentialRadiusOfEachChild = (vRadius*vRadius)/2;
     radiusOfEachChild = sqrt(exponentialRadiusOfEachChild);
-    recDiameter = sqrt(recLength*recLength + recWidth*recWidth);
-    maxDistance = recDiameter - 2*sqrt(2*exponentialRadiusOfEachChild);
-    spaceChecker = maxDistance - 2*radiusOfEachChild;
-    if(spaceChecker >= 0)
-        return maxDistance;
-    else
+    maxDistance = sqrt((recLength - 2*radiusOfEachChild)*(recLength - 2*radiusOfEachChild) + (recWidth - 2*radiusOfEachChild)*(recWidth - 2*radiusOfEachChild));
+
+    if( 4*radiusOfEachChild > recLength) // the rectangle cannot contain both circles
         return -1;
+    else if(2*radiusOfEachChild > recWidth)// the rectangle cannot contain both circles
+        return -1;
+    else
+        return maxDistance;
 }
